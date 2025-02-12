@@ -1,0 +1,6 @@
+-r requirements.txt
+pre-commit
+black
+isort
+flake8
+jupyterlab

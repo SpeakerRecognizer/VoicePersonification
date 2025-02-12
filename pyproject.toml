@@ -1,0 +1,23 @@
+[tool.flake8]
+max-line-length = 79
+exclude = [
+    ".git",
+    "__pycache__",
+    "docs",
+    "old",
+    "build",
+    "dist"
+]
+extend-ignore = [
+    "E203",
+    "W501",
+    "E266",
+    "C901"
+]
+
+[tool.black]
+line-length = 79
+
+[tool.isort]
+line_length = 79
+include_trailing_comma = true
