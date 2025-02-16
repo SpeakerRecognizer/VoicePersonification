@@ -1,0 +1,1 @@
+from .run_test import VerificationTestTask
