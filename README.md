@@ -1,7 +1,7 @@
 VoicePersonification
 ==============================
 
-A short description of the project.
+Voice personification for artificial intelligence systems
 
 Project Organization
 ------------
