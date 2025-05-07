@@ -20,7 +20,7 @@ class VerificationModel(LightningModule):
         key, emb = outputs
         self.metrics[dataloader_idx].update(
             key=key[0],
-            emb=emb.cpu().squeeze().numpy()
+            emb=emb.cpu().squeeze()
         )
     
     def on_test_epoch_end(self) -> None:
