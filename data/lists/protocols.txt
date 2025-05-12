@@ -1,0 +1,3 @@
+https://www.robots.ox.ac.uk/~vgg/data/voxceleb/meta/veri_test2.txt
+https://www.robots.ox.ac.uk/~vgg/data/voxceleb/meta/iden_split.txt
+https://www.robots.ox.ac.uk/~vgg/data/voxceleb/meta/vox1_meta.csv
