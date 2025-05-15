@@ -15,20 +15,23 @@ class VerificationModel(LightningModule):
     def test_step(self, batch: tuple, btach_id: int, ):
         key, feats = batch
         return key, self(feats)
-    
+
     def on_test_batch_end(self, outputs: tuple, batch: torch.Any, batch_idx: int, dataloader_idx: int = 0) -> None:
         key, emb = outputs
         self.metrics[dataloader_idx].update(
             key=key[0],
             emb=emb.cpu().squeeze()
         )
-    
+
     def on_test_epoch_end(self) -> None:
         outs = []
+
         for i, metric in enumerate(self.metrics):
             outs.append(metric.compute(
                 self.trainer.test_dataloaders[i].dataset.get_protocol()
             ))
             metric.reset()
         self.metrics = None
-        print(outs)
+        
+        for out in outs:
+            self.log_dict(out)
