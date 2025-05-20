@@ -54,14 +54,23 @@ bash scripts/download_and_preprocess_data.sh data/download_data data/raw_data da
 
 ```bash
 python -m VoicePersonification.main \
-  -cp=experiments/ecapa-tdnn \
+  -cp=../experiments/ecapa-tdnn \
   -cn=test
 ```
 
 > Вместо `ecapa-tdnn` укажите нужную модель:  
 > `experiments/itmo_personification_model_large`, `experiments/itmo_personification_model_fast`, `experiments/itmo_personification_model_segmentation`, и т.д.
 ---
+В результаты реботы скрипта будет выведенна  качество работы алгоритма на выбранном датасете (EER, порог EER):
 
+```bash
+────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────
+           EER                    1.27
+           Thr                    0.31
+────────────────────────────────────────────────
+```
 
 ## 🧠 Наши модели
 
@@ -82,7 +91,7 @@ python -m VoicePersonification.main \
 | `itmo personification model large`      | 0.71     | 4.36  | 20.23          | 9.35          |
 | `itmo personification model fast`          | XX.XX     | XX.XX  | XX.XX          | XX.XX          |
 | `itmo personification model segmentation`                       | XX.XX     | XX.XX  | XX.XX          | XX.XX          |
-| `ecapa-tdnn baseline` | XX.XX        | XX.XX     | XX.XX             | XX.XX            |
+| `ecapa-tdnn baseline` | 1.27        | XX.XX     | XX.XX             | XX.XX            |
 
 ---
 
