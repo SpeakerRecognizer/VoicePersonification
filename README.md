@@ -1,5 +1,3 @@
-# 🎙️ Voice Personification
-
 
 <img src="img/IMG_4077.PNG" alt="Логотип проекта" width="700"/>
 
