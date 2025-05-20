@@ -108,7 +108,7 @@ python -m VoicePersonification.main \
 
 ## 📚 Публикации
 
-Ниже — некоторые статьи, опубликованные в рамках этого проекта и нашей рабоыт в целом
+Ниже — некоторые статьи, опубликованные в рамках этого проекта и нашей работы в целом
 - 🔖 [Robust Speaker Recognition with Transformers Using wav2vec 2.0](https://www.isca-archive.org/interspeech_2023/novoselov23_interspeech.html)
 
 - 🔖 [Joint Voice Activity Detection and Quality Estimation for Efficient Speech Preprocessing](https://ieeexplore.ieee.org/document/10977856)
