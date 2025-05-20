@@ -1,1 +1,2 @@
 from .verification_test import VerificationTestDataset
+from .verification_train import VerificationTrainDataset
