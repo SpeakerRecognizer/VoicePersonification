@@ -1,3 +1,4 @@
+import os
 import torch
 import math
 import numpy as np
@@ -14,6 +15,7 @@ from whisper.audio import (
     CHUNK_LENGTH,
     SAMPLE_RATE,
 )
+from huggingface_hub import hf_hub_download
 from whisper.model import ResidualAttentionBlock, LayerNorm, Conv1d, sinusoids
 
 from .verification_model import VerificationModel as BaseVerificationModel
@@ -377,7 +379,13 @@ class VerificationSegmentstionModel(nn.Module):
         return self.ts_head(emb).argmax().item()
 
     @staticmethod
-    def from_pretrained(name_or_path: str):
+    def from_pretrained(
+        name_or_path: str = "itmo_personification_model_segmentation.ckpt", 
+        repo: str = "VoicePersonificationITMO/NIRSIModels"
+    ):
+        if not os.path.isfile(name_or_path):
+            name_or_path = hf_hub_download(repo_id=repo, filename=name_or_path)
+
         checkpoint = torch.load(name_or_path, map_location="cpu")
         model = VerificationSegmentstionModel(**checkpoint["args"])
         model.load_state_dict(checkpoint["state_dict"])
@@ -385,9 +393,9 @@ class VerificationSegmentstionModel(nn.Module):
         return model
 
 
-class AEDVerificationModel(BaseVerificationModel):
+class ITMOPersonificationModelSegmentation(BaseVerificationModel):
 
-    def __init__(self, model_name_or_path: str):
+    def __init__(self, model_name_or_path: str = "itmo_personification_model_segmentation.ckpt"):
         super().__init__()
         self.model = VerificationSegmentstionModel.from_pretrained(
             model_name_or_path
@@ -400,7 +408,7 @@ class AEDVerificationModel(BaseVerificationModel):
 
         if wavs.shape[0] != 1:
             raise ValueError(
-                f"{AEDVerificationModel.__name__} accept validation batch size == 1 only"
+                f"{ITMOPersonificationModelSegmentation.__name__} accept validation batch size == 1 only"
             )
 
         init_timestamps = torch.Tensor([[0, wavs.shape[-1] / SAMPLE_RATE]])
