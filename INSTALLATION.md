@@ -17,6 +17,6 @@ or
 ~~~
 * Install other dependacies
 ~~~bash
-~$ python3 -m pip install -r requirements/tequirements.dev.txt
+~$ python3 -m pip install -r requirements/requirements.dev.txt
 ~~~
 * Work!
