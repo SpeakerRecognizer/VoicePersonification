@@ -102,11 +102,16 @@ python -m VoicePersonification.main \
 ---
 ## 📚 Публикации
 
-> Работы, выполненные в рамках проекта:
+## 📚 Публикации
 
-- 🔖 *[ПУБЛИКАЦИЯ 1]* — _название статьи_, конференция/journal, [ссылка]
-- 🔖 *[ПУБЛИКАЦИЯ 2]* — _название статьи_, конференция/journal, [ссылка]
-- 🔖 *[ПУБЛИКАЦИЯ 3]* — _название статьи_, конференция/journal, [ссылка]
+Ниже — некоторые статьи, опубликованные в рамках или при поддержке этого проекта.  
+
+- 🔖 [Joint Voice Activity Detection and Quality Estimation for Efficient Speech Preprocessing](https://ieeexplore.ieee.org/document/10977856)
+  
+- 🔖 [Robust Speaker Recognition for Whispered Speech](https://ieeexplore.ieee.org/document/10977907)  
+
+- 🔖 [Accurate Speaker Counting, Diarization and Separation for Advanced Recognition of Multichannel Multispeaker Conversations](https://www.sciencedirect.com/science/article/abs/pii/S0885230825000051)
+
 
 ---
 
