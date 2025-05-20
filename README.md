@@ -89,8 +89,8 @@ python -m VoicePersonification.main \
 
 ## 📒 Туториалы и примеры
 
-- [`notebooks/tutorial.ipynb`](notebooks/tutorial.ipynb) — быстрый старт и верификация
-- [`examples/`](examples/) — примеры аудиофайлов enrollment и test
+- [`notebooks/verification-tutorial.ipynb`](https://github.com/SpeakerRecognizer/VoicePersonification/blob/main/notebooks/verification-tutorial.ipynb) — быстрый старт и простая верификация на двух примерах
+- [`examples/`](examples/) — примеры enrollment и test аудиофайлов
 
 ---
 
