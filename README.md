@@ -81,7 +81,7 @@ python -m VoicePersonification.main \
 |--------------------------------------------|-----------|--------|----------------|----------------|
 | `itmo personification model large`      | 0.71     | 4.36  | 20.23          | 9.35          |
 | `itmo personification model fast`          | XX.XX     | XX.XX  | XX.XX          | XX.XX          |
-| `itmo personification model segmentation`                       | XX.XX     | XX.XX  | XX.XX          | XX.XX          |
+| `itmo personification model segmentation`                       | 3.56     | XX.XX  | XX.XX          | XX.XX          |
 | `ecapa-tdnn baseline` | XX.XX        | XX.XX     | XX.XX             | XX.XX            |
 
 ---
