@@ -1,2 +1,2 @@
 from .ecapa_tdnn import ECAPATDNNModel
-from .verif_seg_model import AEDVerificationModel
+from .itmo_personification_model_segmentation import ITMOPersonificationModelSegmentation

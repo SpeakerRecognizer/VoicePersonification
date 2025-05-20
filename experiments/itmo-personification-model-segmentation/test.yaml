@@ -3,8 +3,8 @@ task:
   cfg: null
 
 model:
-  _target_: VoicePersonification.models.AEDVerificationModel
-  model_name_or_path: ???
+  _target_: VoicePersonification.models.ITMOPersonificationModelSegmentation
+  model_name_or_path: itmo_personification_model_segmentation.ckpt
 
 dataset:
   _target_: VoicePersonification.data.VerificationTestDataset
