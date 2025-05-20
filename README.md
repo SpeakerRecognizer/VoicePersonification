@@ -23,7 +23,6 @@ Voice Personification — это модульная система распоз�
 
 ---
 
----
 
 ## ⚙️ Установка
 
@@ -107,7 +106,8 @@ python -m VoicePersonification.main \
 
 ## 📚 Публикации
 
-Ниже — некоторые статьи, опубликованные в рамках или при поддержке этого проекта.  
+Ниже — некоторые статьи, опубликованные в рамках этого проекта и нашей рабоыт в целом
+- 🔖 [Robust Speaker Recognition with Transformers Using wav2vec 2.0](https://www.isca-archive.org/interspeech_2023/novoselov23_interspeech.html)
 
 - 🔖 [Joint Voice Activity Detection and Quality Estimation for Efficient Speech Preprocessing](https://ieeexplore.ieee.org/document/10977856)
   
@@ -115,7 +115,9 @@ python -m VoicePersonification.main \
 
 - 🔖 [Accurate Speaker Counting, Diarization and Separation for Advanced Recognition of Multichannel Multispeaker Conversations](https://www.sciencedirect.com/science/article/abs/pii/S0885230825000051)
 
+- 🔖 STCON NIST SRE24 System: Composite Speaker Recognition Solution for Challenging Scenarios - принята к публикации на Interspeech 2025
 
+- 🔖 CRYFISH: On deep audio analysis with Large Language Models - принята к публикации на Interspeech 2025
 ---
 
 ## 📄 Лицензия
