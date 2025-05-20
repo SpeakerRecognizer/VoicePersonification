@@ -18,3 +18,5 @@ kaldiio
 soundfile
 
 hydra-core==1.3.2
+
+ipykernel

@@ -35,3 +35,12 @@ class VerificationModel(LightningModule):
         
         for out in outs:
             self.log_dict(out)
+
+    def verify(self, enroll: torch.Tensor, test: torch.Tensor):
+        device = next(iter(self.parameters())).device
+        dtype = next(iter(self.parameters())).dtype
+
+        enroll_emb = self(enroll.to(device, dtype)).view(1, -1)
+        test_emb = self(test.to(device, dtype)).view(1, -1)
+
+        return torch.cosine_similarity(enroll_emb, test_emb).item()

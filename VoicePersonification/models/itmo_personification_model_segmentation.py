@@ -395,7 +395,7 @@ class VerificationSegmentstionModel(nn.Module):
 
 class ITMOPersonificationModelSegmentation(BaseVerificationModel):
 
-    def __init__(self, model_name_or_path: str):
+    def __init__(self, model_name_or_path: str = "itmo_personification_model_segmentation.ckpt"):
         super().__init__()
         self.model = VerificationSegmentstionModel.from_pretrained(
             model_name_or_path
