@@ -81,7 +81,7 @@ python -m VoicePersonification.main \
 | Модель                                      | VoxCeleb1 | Voices | NIST SRE 2016 | NIST SRE 2019 |
 |--------------------------------------------|-----------|--------|----------------|----------------|
 | `itmo personification model large`      | XX.XX     | XX.XX  | XX.XX          | XX.XX          |
-| `itmo personification model fast`          | XX.XX     | XX.XX  | XX.XX          | XX.XX          |
+| `itmo personification model fast`          | 5.42     | XX.XX  | 1.72          | XX.XX          |
 | `itmo personification model segmentation`                       | XX.XX     | XX.XX  | XX.XX          | XX.XX          |
 | `ecapa-tdnn baseline` | XX.XX        | XX.XX     | XX.XX             | XX.XX            |
 
