@@ -18,11 +18,13 @@ class VerificationTestDataset(Dataset):
                  protocol_path: str,
                  sample_rate: int,
                  imposter_fname: str = "imp-enroll-test.txt",
-                 targets_fname: str = "tar-enroll-test.txt"):
+                 targets_fname: str = "tar-enroll-test.txt",
+                 dtype='float64'):
         self.wav_dct = read_scp(wav_scp)
         self.vad_dct = read_scp(vad_scp)
         self.wav_lst = sorted(self.wav_dct.keys())
 
+        self.dtype = dtype
         self.sample_rate = sample_rate
 
         names = ["enroll", "test"]
@@ -35,7 +37,7 @@ class VerificationTestDataset(Dataset):
 
     def __getitem__(self, index):
         key = self.wav_lst[index]
-        wav, sr = sf.read(self.wav_dct[key])
+        wav, sr = sf.read(self.wav_dct[key], dtype=self.dtype)
         vad = kaldiio.load_mat(self.vad_dct[key]).astype(np.bool_)
 
         if sr != self.sample_rate:
