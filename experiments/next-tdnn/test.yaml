@@ -1,0 +1,21 @@
+task:
+  _target_: VoicePersonification.tasks.VerificationTestTask
+  cfg: null
+
+model:
+  _target_: VoicePersonification.models.NextTDNNVerificationModel.from_pretrained
+
+dataset:
+  _target_: VoicePersonification.data.VerificationTestDataset
+  wav_scp: /mnt/cs/voice/voice_recognition_datasets/middle_mic_testbases/VoxCeleb1_O-Cleaned/feats16k/wav.scp
+  vad_scp: /mnt/cs/voice/voice_recognition_datasets/middle_mic_testbases/VoxCeleb1_O-Cleaned/vad/vad_adapt_v6-2_32.scp
+  protocol_path: /mnt/cs/voice/voice_recognition_datasets/middle_mic_testbases/VoxCeleb1_O-Cleaned/docs/vg_sdk
+  sample_rate: 16_000
+  dtype: int16
+
+dataloader:
+  _target_: torch.utils.data.DataLoader
+  batch_size: 1
+
+trainer:
+  _target_: lightning.Trainer
