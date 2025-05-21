@@ -213,9 +213,9 @@ class CurricularAAM(nn.Module):
 
 # model 
 class Wav2VecBERTModel(VerificationModel):
-    def __init__(self, out_features):
+    def __init__(self):
         super().__init__()
-        self.feat_extractor = Wav2Vec2BertEncoder("facebook/w2v-bert-2.0", 8)
+        self.feat_extractor = Wav2Vec2BertEncoder("VoicePersonificationITMO/NIRSIModels/itmo_personification_model_segmentation.ckpt", 8)
         self.frame_level = torch.nn.Conv1d(1024, 2048, 
                                       kernel_size=1, 
                                       stride=1, 
@@ -223,14 +223,11 @@ class Wav2VecBERTModel(VerificationModel):
                                       bias=True)
         self.pooling = StatPoolLayer(StatPoolMode.MV)
         self.segment_level = MaxoutSegmentLevel(4096, 512, True)
-        self.head = CurricularAAM(512, out_features)
     
     def forward(self, features):
         x = self.feat_extractor(features)
         x = self.frame_level(x)
         x = self.pooling(x)
         x = self.segment_level(x)
-        #x = self.head(x)
-        
         return x
 
