@@ -28,11 +28,54 @@
 
 ## ⚙️ Установка
 
+
+### 1. Клонируйте репозиторий
+
 ```bash
-git clone https://github.com/SpeakerRecognizer/VoicePersonification.git
+git clone git@github.com:SpeakerRecognizer/VoicePersonification.git
 cd VoicePersonification
-pip install -r requirements.txt
 ```
+
+> ⚠️ Если у вас не установлен `git`, установите его с [официального сайта](https://git-scm.com/downloads)
+
+> ⚠️ Если вы не настроили SSH-ключ для GitHub, [вот инструкция](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh)
+
+
+### 2. Создайте окружение
+
+```bash
+conda create --prefix ./envs/python3.8 python=3.8 pip
+```
+
+> ⚠️ Если у вас не установлена `conda`, установите ее с [официального сайта Miniconda](https://docs.conda.io/en/latest/miniconda.html)  
+> ⚡ Альтернатива: [Mamba](https://mamba.readthedocs.io/en/latest/)
+
+Затем активируйте окружение:
+
+```bash
+conda activate ./envs/python3.8
+```
+
+
+### 3. Установите PyTorch
+
+```bash
+conda install pytorch::pytorch torchvision torchaudio -c pytorch
+```
+
+
+### 4. Установите остальные зависимости
+
+```bash
+python3 -m pip install -r requirements/requirements.dev.txt
+```
+
+
+
+### ✅ Готово!
+
+Теперь проект готов к использованию 🚀
+
 
 ---
 
