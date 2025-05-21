@@ -36,7 +36,7 @@ git clone git@github.com:SpeakerRecognizer/VoicePersonification.git
 cd VoicePersonification
 ```
 
-> ⚠️ Если у вас не установлен `git`, установите его с [официального сайта](https://git-scm.com/downloads)
+> ⚠️ Если у вас не установлен `git`, установите его с [официального сайта](https://git-scm.com/downloads)  
 > ⚠️ Если вы не настроили SSH-ключ для GitHub, [вот инструкция](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh)
 
 
