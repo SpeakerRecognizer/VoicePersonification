@@ -1,2 +1,3 @@
 from .ecapa_tdnn import ECAPATDNNModel
 from .itmo_personification_model_segmentation import ITMOPersonificationModelSegmentation
+from .next_tdnn import NextTDNNVerificationModel
