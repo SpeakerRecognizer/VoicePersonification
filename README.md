@@ -63,7 +63,7 @@ python -m VoicePersonification.main \
 > Вместо `ecapa-tdnn` укажите нужную модель:  
 > `experiments/itmo_personification_model_large`, `experiments/itmo_personification_model_fast`, `experiments/itmo_personification_model_segmentation`, и т.д.
 ---
-В результаты реботы скрипта будет выведенна  качество работы алгоритма на выбранном датасете (EER, порог EER):
+В результаты работы скрипта будет выведено качество работы алгоритма на выбранном датасете (EER, порог EER):
 
 ```bash
 ────────────────────────────────────────────────
@@ -159,7 +159,7 @@ python -m VoicePersonification.main \
 ```bibtex
 @misc{itmo_voice_personification_2025,
   title     = {Voice Personification for Artificial Intelligence Systems},
-  author    = {Khmelev, N. and Novoselov, S. Zorkina, A. and et.al},
+  author    = {Khmelev, N. and Novoselov, S. and Zorkina, A. and et.al},
   year      = {2025},
   note      = {ITMO University, open-source implementation},
   howpublished = {\url{https://github.com/YOUR_ORG/voice-personification}}
