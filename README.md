@@ -204,7 +204,7 @@ python -m VoicePersonification.main \
   author    = {Khmelev, N. and Novoselov, S. and Zorkina, A. and et.al},
   year      = {2025},
   note      = {ITMO University, open-source implementation},
-  howpublished = {\url{https://github.com/YOUR_ORG/voice-personification}}
+  howpublished = {\url{https://github.com/SpeakerRecognizer/VoicePersonification}}
 }
 ```
 ## 🙏 Благодарности
