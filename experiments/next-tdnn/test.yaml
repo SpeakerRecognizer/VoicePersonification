@@ -7,9 +7,9 @@ model:
 
 dataset:
   _target_: VoicePersonification.data.VerificationTestDataset
-  wav_scp: /mnt/cs/voice/voice_recognition_datasets/middle_mic_testbases/VoxCeleb1_O-Cleaned/feats16k/wav.scp
-  vad_scp: /mnt/cs/voice/voice_recognition_datasets/middle_mic_testbases/VoxCeleb1_O-Cleaned/vad/vad_adapt_v6-2_32.scp
-  protocol_path: /mnt/cs/voice/voice_recognition_datasets/middle_mic_testbases/VoxCeleb1_O-Cleaned/docs/vg_sdk
+  wav_scp: data/VoxCeleb1-O/wav.scp
+  vad_scp: data/VoxCeleb1-O/vad.scp
+  protocol_path: data/VoxCeleb1-O/protocols
   sample_rate: 16_000
   dtype: int16
 
