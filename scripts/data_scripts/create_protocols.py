@@ -17,9 +17,9 @@ def create_protocols(trials_path, protocols_path):
         for line in trials:
             kind, enroll, test = line.strip().split(' ')
             if kind == '0':
-                imp.write(f'{enroll} {test}\n')
+                imp.write(f'{enroll}\t{test}\n')
             if kind == '1':
-                tar.write(f'{enroll} {test}\n')    
+                tar.write(f'{enroll}\t{test}\n')    
 
 
 def main(trials_path, protocols_path):
