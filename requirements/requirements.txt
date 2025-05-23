@@ -13,6 +13,8 @@ speechbrain
 openai-whisper
 transformers==4.46.3
 torch-audiomentations==0.12.0
+pyannote.audio==3.2.0
+git+https://github.com/marianne-m/brouhaha-vad.git
 
 kaldiio
 soundfile
