@@ -185,4 +185,4 @@ lightning_logs/
 envs
 .DS_Store
 .vscode
-output_dir/
+data/
