@@ -98,6 +98,17 @@ bash scripts/download_and_preprocess_data.sh data/download_data data/raw_data da
 Запустите тест на подготовленных данных:
 
 ```bash
+# Подготовка разметки детектором речи
+
+export CUDA_VISIBLE_DEVICES=0; 
+export HF_TOKEN_BROUHAHA="YOUR HUGGINGFACE_TOKEN"; 
+
+python -m VoicePersonification.main \
+    -cp=../experiments/brouhaha_vad \
+    -cn=predict
+
+# Верификация диктора по протоколу
+
 python -m VoicePersonification.main \
   -cp=../experiments/ecapa-tdnn \
   -cn=test
