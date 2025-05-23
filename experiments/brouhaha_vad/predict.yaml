@@ -19,4 +19,4 @@ trainer:
 
 output_handler:
   _target_: VoicePersonification.models.brouhaha.output_handler
-  output_dir: ./output_dir/VoxCeleb1-O
+  output_dir: data/VoxCeleb1-O/vad_markup
