@@ -1,2 +1,3 @@
 from .verification_test import VerificationTestDataset
 from .verification_train import VerificationTrainDataset
+from .audio_predict import AudioPredictDataset

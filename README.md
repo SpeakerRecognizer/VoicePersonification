@@ -97,10 +97,22 @@ bash scripts/download_and_preprocess_data.sh data/download_data data/raw_data da
 Запустите тест на подготовленных данных:
 
 ```bash
+# Подготовка разметки детектором речи
+
+export CUDA_VISIBLE_DEVICES=0; 
+export HF_TOKEN_BROUHAHA="YOUR HUGGINGFACE_TOKEN"; # Токен доступа для модели brouhaha, ниже описано как его получить
+python -m VoicePersonification.main \
+    -cp=../experiments/brouhaha_vad \
+    -cn=predict
+
+# Верификация диктора по протоколу
+
 python -m VoicePersonification.main \
   -cp=../experiments/ecapa-tdnn \
   -cn=test
 ```
+
+> Для получения доступа к модели brouhaha (HF_TOKEN_BROUHAHA), необходимо авторизироваться на HuggingFace и перейти на [страницу](https://huggingface.co/pyannote/brouhaha). Заполнить поля ("Company/university", "Website", "I plan to use this model for (task, type of audio data, etc)"), после чего в личном кабинете появится access token.
 
 > Вместо `ecapa-tdnn` укажите нужную модель:  
 > `experiments/itmo_personification_model_large`, `experiments/itmo_personification_model_fast`, `experiments/itmo_personification_model_segmentation`, и т.д.
