@@ -1,17 +1,18 @@
 task:
-  _target_: VoicePersonification.tasks.VerificationTestTask
+  _target_: VoicePersonification.VerificationTestTask
   cfg: null
 
 model:
-  _target_: VoicePersonification.models.Wav2VecBERTModel
-  model_name_or_path: itmo_personification_model_large.ckpt
+  _target_: VoicePersonification.ItmoPersonificationModelLarge
 
 dataset:
-  _target_: VoicePersonification.data.VerificationTestDataset
-  wav_scp: data/raw_data/scp/voxceleb1/test/wav.scp
-  vad_scp: '' #data/VoxCeleb1-O/vad_markup/vad.scp
+  _target_: VoicePersonification.VerificationTestDataset
+  wav_scp: data/VoxCeleb1-O/wav.scp
+  vad_scp: ''
   protocol_path: data/protocols
   sample_rate: 16_000
+  feature_extractor: 
+    _target_: VoicePersonification.Wav2Vec2BertFeatures
 
 dataloader:
   _target_: torch.utils.data.DataLoader

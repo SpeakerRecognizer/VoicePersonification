@@ -9,6 +9,8 @@ from torch.nn.functional import relu
 from VoicePersonification.models.verification_model import VerificationModel
 from torch.nn import Parameter
 import math
+import os 
+from huggingface_hub import hf_hub_download
 
 
 
@@ -213,9 +215,11 @@ class CurricularAAM(nn.Module):
 
 # model 
 class Wav2VecBERTModel(VerificationModel):
-    def __init__(self):
+    def __init__(self,
+                 repo: str = "VoicePersonificationITMO/NIRSIModels",
+                 name_or_path: str = "itmo_personification_model_large.ckpt"):
         super().__init__()
-        self.feat_extractor = Wav2Vec2BertEncoder("VoicePersonificationITMO/NIRSIModels/itmo_personification_model_segmentation.ckpt", 8)
+        self.feat_extractor = Wav2Vec2BertEncoder("facebook/w2v-bert-2.0", 8)
         self.frame_level = torch.nn.Conv1d(1024, 2048, 
                                       kernel_size=1, 
                                       stride=1, 
@@ -231,3 +235,27 @@ class Wav2VecBERTModel(VerificationModel):
         x = self.segment_level(x)
         return x
 
+    @staticmethod
+    def from_pretrained(
+        name_or_path: str = "itmo_personification_model_segmentation.ckpt", 
+        repo: str = "VoicePersonificationITMO/NIRSIModels"
+    ):
+        if not os.path.isfile(name_or_path):
+            name_or_path = hf_hub_download(repo_id=repo, filename=name_or_path)
+
+        checkpoint = torch.load(name_or_path, map_location="cpu")
+        print(checkpoint.keys())
+        model = Wav2VecBERTModel()
+        model.load_state_dict(checkpoint)
+
+        return model    
+
+class ItmoPersonificationModelLarge(VerificationModel):
+    def __init__(self, model_name_or_path: str = "itmo_personification_model_large.ckpt"):
+        super().__init__()
+        self.model = Wav2VecBERTModel.from_pretrained(
+            model_name_or_path
+        )
+
+    def forward(self, features):
+        return self.model(features)
