@@ -8,8 +8,8 @@ model:
 
 dataset:
   _target_: VoicePersonification.data.VerificationTestDataset
-  wav_scp: data/VoxCeleb1-O/wav.scp
-  vad_scp: data/VoxCeleb1-O/vad_markup/vad.scp
+  wav_scp: data/scp/voxceleb1/test/wav.scp
+  vad_scp: data/vad/voxceleb1/test/vad.scp
   protocol_path: data/VoxCeleb1-O/protocols
   sample_rate: 16_000
 

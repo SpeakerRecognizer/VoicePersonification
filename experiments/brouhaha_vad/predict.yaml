@@ -7,7 +7,7 @@ model:
 
 dataset:
   _target_: VoicePersonification.data.AudioPredictDataset
-  wav_scp: data/VoxCeleb1-O/wav.scp
+  wav_scp: data/scp/voxceleb1/test/wav.scp
   sample_rate: 16_000
 
 dataloader:
@@ -19,4 +19,4 @@ trainer:
 
 output_handler:
   _target_: VoicePersonification.models.brouhaha.output_handler
-  output_dir: data/VoxCeleb1-O/vad_markup
+  output_dir: data/vad/voxceleb1/test
