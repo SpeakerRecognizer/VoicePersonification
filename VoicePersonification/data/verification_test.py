@@ -19,13 +19,16 @@ class VerificationTestDataset(Dataset):
                  sample_rate: int,
                  imposter_fname: str = "imp-enroll-test.txt",
                  targets_fname: str = "tar-enroll-test.txt",
-                 feature_extractor=None):
+                 feature_extractor=None,
+                 dtype='float64'):
         self.wav_dct = read_scp(wav_scp)
         if vad_scp != "":
             self.vad_dct = read_scp(vad_scp)
         else:
             self.vad_dct= None
         self.wav_lst = sorted(self.wav_dct.keys())
+
+        self.dtype = dtype
         self.sample_rate = sample_rate
         names = ["enroll", "test"]
         imposters_pairs = pd.read_csv(os.path.join(protocol_path, imposter_fname), sep="\t", names=names)
@@ -37,7 +40,8 @@ class VerificationTestDataset(Dataset):
 
     def __getitem__(self, index):
         key = self.wav_lst[index]
-        wav, sr = sf.read(self.wav_dct[key])
+        wav, sr = sf.read(self.wav_dct[key], dtype=self.dtype)
+
         if sr != self.sample_rate:
             wav = ta.functional.resample(torch.from_numpy(wav), sr, self.sample_rate).numpy()
 
