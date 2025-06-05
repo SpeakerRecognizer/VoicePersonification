@@ -17,6 +17,15 @@ def read_scp(fpath: str, sep: str = " "):
 
     return val_dct
 
+def parse_utt2spk(fpath: str, sep: str=" "):
+    utt2spk={}
+    with open(fpath, 'r') as if_:
+        for line in if_:
+            utt, spk = line.strip().split(sep)
+            utt2spk[utt] = spk 
+    return utt2spk         
+
+
 def apply_vad(wav: np.array, vad: np.array):
     n_repeats = np.ceil(wav.shape[-1] / vad.shape[-1])
     vad = np.repeat(vad.astype(np.bool_), n_repeats)[..., :wav.shape[-1]]

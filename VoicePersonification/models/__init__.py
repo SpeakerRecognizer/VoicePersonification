@@ -1,3 +1,6 @@
 from .ecapa_tdnn import ECAPATDNNModel
 from .itmo_personification_model_segmentation import ITMOPersonificationModelSegmentation
 from .next_tdnn import NextTDNNVerificationModel
+from .brouhaha import BrouhahaVADModel
+from .wav2vec_bert import Wav2VecBERTModel, Wav2Vec2BertFeatures, ItmoPersonificationModelLarge
+from .verification_model import VerificationModel

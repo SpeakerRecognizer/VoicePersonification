@@ -1,16 +1,18 @@
 task:
-  _target_: VoicePersonification.tasks.VerificationTestTask
+  _target_: VoicePersonification.VerificationTestTask
   cfg: null
 
 model:
-  _target_: VoicePersonification.models.ECAPATDNNModel
+  _target_: VoicePersonification.ItmoPersonificationModelLarge
 
 dataset:
-  _target_: VoicePersonification.data.VerificationTestDataset
+  _target_: VoicePersonification.VerificationTestDataset
   wav_scp: data/scp/voxceleb1/test/wav.scp
   vad_scp: data/vad/voxceleb1/test/vad.scp
   protocol_path: data/protocols
   sample_rate: 16_000
+  feature_extractor: 
+    _target_: VoicePersonification.Wav2Vec2BertFeatures
 
 dataloader:
   _target_: torch.utils.data.DataLoader
