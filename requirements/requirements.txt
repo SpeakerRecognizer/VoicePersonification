@@ -5,15 +5,15 @@ numpy
 pandas
 scikit-learn
 
-torch==2.0.1
-torchvision==0.15.2
-torchaudio==2.0.2
+torch==2.2.0
+torchvision==0.17.0
+torchaudio==2.2.0
 lightning==2.3.3
 speechbrain
 openai-whisper
 transformers==4.46.3
 torch-audiomentations==0.12.0
-pyannote.audio==3.2.0
+pyannote.audio==3.3.0
 git+https://github.com/marianne-m/brouhaha-vad.git
 
 kaldiio
@@ -22,3 +22,5 @@ soundfile
 hydra-core==1.3.2
 
 ipykernel
+grpcio
+grpcio-tools
