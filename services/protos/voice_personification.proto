@@ -46,6 +46,23 @@ message SegmentationResponse {
   SegmentationPrediction result = 2;
 }
 
+message TranscriptSegment {
+  float start = 1;
+  float end = 2;
+  string text = 3;
+}
+
+message TranscriptionResult {
+  string text = 1;
+  repeated TranscriptSegment segments = 2;
+  string language = 3;
+}
+
+message TranscriptionResponse {
+  string filename = 1;
+  TranscriptionResult transcription = 2;
+}
+
 service BrouhahaVADGrpcService {
   rpc Predict(AudioRequest) returns (BrouhahaResponse);
 }
@@ -60,4 +77,8 @@ service ItmoPersonificationLargeGrpcService {
 
 service ItmoPersonificationSegmentationGrpcService {
   rpc Segment(AudioRequest) returns (SegmentationResponse);
+}
+
+service WhisperRecognitionGrpcService {
+  rpc Transcribe(AudioRequest) returns (TranscriptionResponse);
 }
