@@ -2,11 +2,7 @@
 
 * generate protobuf
 ```python 
-python -m grpc_tools.protoc \
-  -Iservices/protos \
-  --python_out=services/protos \
-  --grpc_python_out=services/protos \
-  services/protos/voice_personification.proto
+bash services/protos/generate_protoc.sh
 ```
 
 * run services

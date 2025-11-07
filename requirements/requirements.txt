@@ -24,3 +24,4 @@ hydra-core==1.3.2
 ipykernel
 grpcio
 grpcio-tools
+SQLAlchemy>=1.4
