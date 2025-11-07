@@ -1,19 +1,18 @@
 import argparse
+import base64
+import io
 import json
-from contextlib import ExitStack
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Callable, Dict, Iterable, Tuple, List
-import io
+from typing import Callable, Dict, Iterable, List, Tuple
 
 import grpc
-from sqlalchemy import Column, DateTime, Integer, JSON, String, create_engine, Float, BLOB
-from sqlalchemy.orm import declarative_base, sessionmaker
-
 import numpy as np
 import torch
 import torchaudio
+from sqlalchemy import BLOB, Column, DateTime, Float, Integer, JSON, String, create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 from services.protos import voice_personification_pb2 as pb2
 from services.protos import voice_personification_pb2_grpc as pb2_grpc
@@ -158,6 +157,31 @@ def enroll(session, result):
     except:
         ...
         
+
+def find(session, result) -> List[Dict[str, object]]:
+    entries = session.query(MetadataEntry).order_by(MetadataEntry.created_at.desc()).all()
+    enroll_embeddings, enroll_names = [], []
+    for entry in entries:
+        if entry.embedding:
+            
+            embedding_b64 = np.frombuffer(entry.embedding, dtype=np.float32)
+            enroll_embeddings.append(embedding_b64)
+            enroll_names.append(entry.user_name)
+
+    enroll_embeddings = np.stack(enroll_embeddings)
+    test_embedding = np.frombuffer(result["embedding"], dtype=np.float32)[None, ...]
+    
+    en_norm = np.sqrt((enroll_embeddings**2).sum(1))
+    te_norm = np.sqrt((test_embedding**2).sum(1))
+
+    enroll_w = (enroll_embeddings.T / np.clip(en_norm, 1e-8, None)).T
+    test_w = (test_embedding.T / np.clip(te_norm, 1e-8, None)).T
+    scores = np.dot(enroll_w, test_w.T)
+    
+    id = np.argmax(scores)
+    spk = enroll_names[id]
+    return spk,  scores.max()
+        
         
 def process(audio_path, 
             brouhaha_vad_url, 
@@ -201,7 +225,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Client that queries multiple gRPC audio services and aggregates metadata."
     )
-    parser.add_argument("audio", type=Path, help="Path to the audio file to process.")
+    parser.add_argument("audio", type=Path, nargs="?", help="Path to the audio file to process.")
     parser.add_argument("--host", default="127.0.0.1", help="Common host for all services.")
     parser.add_argument("--vad-port", type=int, default=50051, help="Brouhaha VAD service port.")
     parser.add_argument("--sr-port", type=int, default=50053, help="ITMO personification large service port.")
@@ -213,25 +237,26 @@ def main() -> None:
         help="Path to SQLite database file where metadata will be stored.",
     )
     args = parser.parse_args()
-
+    
     if not args.audio.exists():
         raise FileNotFoundError(f"Audio file not found: {args.audio}")
 
-    # session_factory = create_session_factory(args.database)
-
-    result = process(args.audio, 
+    result = process(args.audio,
                      ServiceEndpoint(args.host, args.vad_port),
                      ServiceEndpoint(args.host, args.sr_port),
                      ServiceEndpoint(args.host, args.asr_port),)
     
-    result["user_id"] = "temp"
-    result["user_name"] = "temp"
+    result["user_id"] = "10289"
+    result["user_name"] = "id10289"
     
     session_maker = create_session_factory(args.database)
     with session_maker() as session:
         enroll(session, result)
+        user_id, score = find(session, result)
 
-    print(result)
+    print("Congratulations")
+    print(f"I will find spk {user_id} with score {score}")
+    print(f"She or he say: {result['text']}")
 
 
 if __name__ == "__main__":
