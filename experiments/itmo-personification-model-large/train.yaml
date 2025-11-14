@@ -1,0 +1,60 @@
+task:
+  _target_: VoicePersonification.VerificationTrainTask
+
+model:
+  _target_: VoicePersonification.Wav2VecBERTModel
+  num_train_classes: 7205
+train:   
+  criterion:
+    _target_: torch.nn.modules.loss.CrossEntropyLoss
+  optimizer: 
+    _target_: torch.optim.SGD
+    lr: 0.001
+    momentum: 0.9
+    weight_decay: 0.0
+    nesterov: true
+  scheduler: 
+    _target_: torch.optim.lr_scheduler.OneCycleLR
+    pct_start: 0.05
+    cycle_momentum: False
+    max_lr: ${train.optimizer.lr}  
+    div_factor: 100
+    final_div_factor: 10000
+
+
+train_dataset:
+  _target_: VoicePersonification.VerificationTrainDataset
+  wav_scp: data/scp/voxceleb2/dev/wav.scp
+  utt2spk: data/scp/voxceleb2/dev/utt2spk
+  vad_scp: ''
+  sample_rate: 16_000
+  max_frames: 600
+  feature_extractor: 
+    _target_: VoicePersonification.Wav2Vec2BertFeatures
+
+val_dataset:  
+  _target_: VoicePersonification.VerificationTestDataset
+  wav_scp: data/scp/voxceleb1/test/wav.scp
+  vad_scp: ''
+  protocol_path: data/protocols
+  sample_rate: 16_000
+  feature_extractor: 
+    _target_: VoicePersonification.Wav2Vec2BertFeatures
+    
+train_dataloader:
+  _target_: torch.utils.data.DataLoader
+  batch_size: 16
+  num_workers: 8
+
+val_dataloader:
+  _target_: torch.utils.data.DataLoader
+  batch_size: 1
+  num_workers: 8
+
+trainer:
+  _target_: lightning.Trainer
+  devices: [1,2]
+  max_epochs: 2
+  strategy: ddp_find_unused_parameters_true
+  num_sanity_val_steps: 0
+  default_root_dir: data/large_model_cpkts
