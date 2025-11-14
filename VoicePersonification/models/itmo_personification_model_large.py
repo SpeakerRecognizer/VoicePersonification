@@ -2,7 +2,6 @@ from enum import Enum
 import torch
 from torch import nn
 from transformers import Wav2Vec2BertModel, Wav2Vec2BertConfig, AutoFeatureExtractor
-from transformers import AutoFeatureExtractor
 from torch_audiomentations.core.transforms_interface import BaseWaveformTransform
 from typing import List, Union
 from torch.nn.functional import relu
@@ -11,7 +10,11 @@ from torch.nn import Parameter
 import math
 import os 
 from huggingface_hub import hf_hub_download
-
+from typing import Tuple
+from hydra.utils import instantiate
+from torchmetrics import Accuracy
+from VoicePersonification.metrics.eer import EERMetric
+import logging
 
 
 # features 
@@ -216,13 +219,19 @@ class CurricularAAM(nn.Module):
 # model 
 class Wav2VecBERTModel(VerificationModel):
     def __init__(self,
-                 repo: str = "VoicePersonificationITMO/NIRSIModels",
-                 name_or_path: str = "itmo_personification_model_large.ckpt", 
                  num_train_classes: int = 7205, 
                  cfg=None, 
                  ):
+        
+        super(VerificationModel, self).__init__()
         self.num_train_classes = num_train_classes
-        super().__init__(cfg)
+        if cfg != None:
+            self.train_cfg = cfg
+            self.criterion = instantiate(self.train_cfg.criterion)
+            self.train_accuracy = Accuracy(task="multiclass", num_classes=self.num_train_classes)
+            self.head = CurricularAAM(512, num_train_classes)
+            self.save_hyperparameters()
+            
         self.feat_extractor = Wav2Vec2BertEncoder("facebook/w2v-bert-2.0", 8)
         self.frame_level = torch.nn.Conv1d(1024, 2048, 
                                       kernel_size=1, 
@@ -231,7 +240,6 @@ class Wav2VecBERTModel(VerificationModel):
                                       bias=True)
         self.pooling = StatPoolLayer(StatPoolMode.MV)
         self.segment_level = MaxoutSegmentLevel(4096, 512, True)
-        self.head = CurricularAAM(512, num_train_classes)
     
     def forward(self, features, label=False):
         x = self.feat_extractor(features)
@@ -244,7 +252,7 @@ class Wav2VecBERTModel(VerificationModel):
 
     @staticmethod
     def from_pretrained(
-        name_or_path: str = "itmo_personification_model_segmentation.ckpt", 
+        name_or_path: str = "itmo_personification_model_large.ckpt", 
         repo: str = "VoicePersonificationITMO/NIRSIModels"
     ):
         if not os.path.isfile(name_or_path):
@@ -255,6 +263,58 @@ class Wav2VecBERTModel(VerificationModel):
         model.load_state_dict(checkpoint)
 
         return model    
+    
+    def verify(self, enroll: torch.Tensor, test: torch.Tensor):
+        device = next(iter(self.parameters())).device
+        dtype = next(iter(self.parameters())).dtype
+
+        enroll_emb = self(enroll.to(device, dtype)).view(1, -1)
+        test_emb = self(test.to(device, dtype)).view(1, -1)
+
+        return torch.cosine_similarity(enroll_emb, test_emb).item() 
+    
+    def configure_optimizers(self):
+        optim_conf = self.train_cfg.optimizer
+        optimizer = instantiate(optim_conf, params=self.parameters())
+        scheduler_conf = getattr(self.train_cfg, "scheduler", None)
+        if scheduler_conf is not None:
+            scheduler = instantiate(scheduler_conf, optimizer=optimizer, total_steps=self.trainer.estimated_stepping_batches)
+            return {"optimizer": optimizer, "lr_scheduler": {"scheduler": scheduler, "interval": "step"}}
+        return optimizer
+
+    def on_train_epoch_start(self) -> None:
+        self.total_loss = 0
+        self.total_acc = 0 
+        self.num_steps_last_epoch = 0
+        
+    def training_step(self, batch: Tuple[torch.Tensor, torch.Tensor], batch_idx: int) -> torch.Tensor:
+        data, labels = batch
+        output, logits = self.forward(data, labels)
+        loss = self.criterion(output, labels)
+        acc = self.train_accuracy(logits, labels)
+        self.total_loss += loss
+        self.total_acc += acc
+        self.num_steps_last_epoch += 1
+        self.log_dict({'Train loss': loss, 'Train acc': acc}, prog_bar=True)
+        return loss
+
+    def on_train_epoch_end(self) -> None:
+        """Compute and log accuracy over the whole train set for the current epoch."""
+        print(f'Epoch completed. Train loss: {self.total_loss/self.num_steps_last_epoch},\
+                Train accuracy: {(self.total_acc/self.num_steps_last_epoch)[0]}')        
+
+    def on_validation_epoch_start(self) -> None:
+        self.metrics = EERMetric() 
+
+    def validation_step(self, batch: tuple, batch_id: int, ):
+        self.test_step(batch, batch_id)
+
+    def on_validation_batch_end(self, outputs: tuple, batch: torch.Any, batch_idx: int, dataloader_idx: int = 0) -> None:
+        self.on_test_batch_end(outputs, batch, batch_idx, dataloader_idx)
+
+    def on_validation_epoch_end(self) -> None:
+        self.on_test_epoch_end()
+
 
 class ItmoPersonificationModelLarge(VerificationModel):
     def __init__(self, model_name_or_path: str = "itmo_personification_model_large.ckpt"):
