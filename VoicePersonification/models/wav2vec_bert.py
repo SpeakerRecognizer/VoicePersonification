@@ -217,8 +217,12 @@ class CurricularAAM(nn.Module):
 class Wav2VecBERTModel(VerificationModel):
     def __init__(self,
                  repo: str = "VoicePersonificationITMO/NIRSIModels",
-                 name_or_path: str = "itmo_personification_model_large.ckpt"):
-        super().__init__()
+                 name_or_path: str = "itmo_personification_model_large.ckpt", 
+                 num_train_classes: int = 7205, 
+                 cfg=None, 
+                 ):
+        self.num_train_classes = num_train_classes
+        super().__init__(cfg)
         self.feat_extractor = Wav2Vec2BertEncoder("facebook/w2v-bert-2.0", 8)
         self.frame_level = torch.nn.Conv1d(1024, 2048, 
                                       kernel_size=1, 
@@ -227,12 +231,15 @@ class Wav2VecBERTModel(VerificationModel):
                                       bias=True)
         self.pooling = StatPoolLayer(StatPoolMode.MV)
         self.segment_level = MaxoutSegmentLevel(4096, 512, True)
+        self.head = CurricularAAM(512, num_train_classes)
     
-    def forward(self, features):
+    def forward(self, features, label=False):
         x = self.feat_extractor(features)
         x = self.frame_level(x)
         x = self.pooling(x)
         x = self.segment_level(x)
+        if self.training:
+            x = self.head(x, label=label)
         return x
 
     @staticmethod
@@ -244,7 +251,6 @@ class Wav2VecBERTModel(VerificationModel):
             name_or_path = hf_hub_download(repo_id=repo, filename=name_or_path)
 
         checkpoint = torch.load(name_or_path, map_location="cpu")
-        print(checkpoint.keys())
         model = Wav2VecBERTModel()
         model.load_state_dict(checkpoint)
 
