@@ -19,7 +19,7 @@ from huggingface_hub import hf_hub_download
 from whisper.model import ResidualAttentionBlock, LayerNorm, Conv1d, sinusoids
 
 from .verification_model import VerificationModel as BaseVerificationModel
-from .wav2vec_bert import CurricularAAM
+from .itmo_personification_model_large import CurricularAAM
 
 
 class Encoder(nn.Module):
