@@ -18,7 +18,7 @@ export HF_TOKEN_BROUHAHA=<Your Hugging Face token>
 
 * run tests
 ~~~bash
-~$ python -m services.examples.multi_service_client /mnt/cs/voice/khmelev/nirsi/VP_v1/examples/id10277-znxUWA2QAGs-00001.wav
+~$ python -m services.examples.multi_service_client ./examples/id10277-znxUWA2QAGs-00001.wav
 
-~$python -m services.examples.ecapa_tdnn /Users/nikitossii/Documents/VoicePersonification/examples/id10277-znxUWA2QAGs-00001.wav
+~$python -m services.examples.ecapa_tdnn ./examples/id10277-znxUWA2QAGs-00001.wav
 ~~~
