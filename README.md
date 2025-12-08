@@ -183,6 +183,8 @@ python -m VoicePersonification.main \
 - 🔖 [STCON NIST SRE24 System: Composite Speaker Recognition Solution for Challenging Scenarios](https://www.isca-archive.org/interspeech_2025/malykh25_interspeech.pdf)
   
 - 🔖 [CRYFISH: On deep audio analysis with Large Language Models](https://arxiv.org/abs/2508.12666)
+  
+- 🔖 [Cryfish: Как научить большую языковую модель слышать и понимать звуки?](https://habr.com/ru/articles/972898/)
 ---
 
 ## 📄 Лицензия
