@@ -51,7 +51,7 @@ class VerificationTestDataset(Dataset):
 
         out = torch.from_numpy(wav.astype(np.float32)).squeeze()
         if self.fe != None:
-           out = self.fe(out.unsqueeze(0))
+            out = self.fe(out.unsqueeze(0))
         
         return key, out
 

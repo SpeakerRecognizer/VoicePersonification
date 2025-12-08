@@ -133,7 +133,7 @@ python -m VoicePersonification.main \
 | Название модели                        | Особенности                                                                          | Архитектура    | Размер |
 |----------------------------------------|---------------------------------------------------------------------------------------|----------------|----------|
 | `itmo_personification_model_large`  | Основная модель с высокой точностью и устойчивостью; использует SSL-предобучение     | wav2vec-BERT   |  203        |
-| `itmo_personification_model_fast`      | Лёгкая и быстрая модель для верификации                        | Next-TDNN      |       XX   |
+| `itmo_personification_model_fast`      | Лёгкая и быстрая модель для верификации                        | Next-TDNN      |       17.1   |
 | `itmo_personification_model_segmentation` | Позволяет точно выделять участки речи отдельных говорящих для улучшения верификации | Whisper        |     24.9     |
 | `ecapa-tdnn baseline`                  | Бейзлайн-модель для сравнения  | ECAPA-TDNN     |   22.2       |
 
@@ -180,9 +180,11 @@ python -m VoicePersonification.main \
 
 - 🔖 [Accurate Speaker Counting, Diarization and Separation for Advanced Recognition of Multichannel Multispeaker Conversations](https://www.sciencedirect.com/science/article/abs/pii/S0885230825000051)
 
-- 🔖 STCON NIST SRE24 System: Composite Speaker Recognition Solution for Challenging Scenarios - принята к публикации на Interspeech 2025
-
-- 🔖 CRYFISH: On deep audio analysis with Large Language Models - принята к публикации на Interspeech 2025
+- 🔖 [STCON NIST SRE24 System: Composite Speaker Recognition Solution for Challenging Scenarios](https://www.isca-archive.org/interspeech_2025/malykh25_interspeech.pdf)
+  
+- 🔖 [CRYFISH: On deep audio analysis with Large Language Models](https://arxiv.org/abs/2508.12666)
+  
+- 🔖 [Cryfish: Как научить большую языковую модель слышать и понимать звуки?](https://habr.com/ru/articles/972898/)
 ---
 
 ## 📄 Лицензия

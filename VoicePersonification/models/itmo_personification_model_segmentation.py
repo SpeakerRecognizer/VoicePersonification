@@ -19,7 +19,7 @@ from huggingface_hub import hf_hub_download
 from whisper.model import ResidualAttentionBlock, LayerNorm, Conv1d, sinusoids
 
 from .verification_model import VerificationModel as BaseVerificationModel
-from .wav2vec_bert import CurricularAAM
+from .itmo_personification_model_large import CurricularAAM
 
 
 class Encoder(nn.Module):
@@ -328,7 +328,7 @@ class VerificationSegmentstionModel(nn.Module):
             embeded_audio = self.embed_audio(mel.unsqueeze(0))
 
             for ts in init_timestamps:
-                if ts is None:
+                if ts is not None:
                     ts_start = self.tokenizer.timestamp2token(ts[0].item())
                 else:
                     decoder_output = self.decode_featmap(
@@ -340,7 +340,7 @@ class VerificationSegmentstionModel(nn.Module):
                     break
 
                 tokens.append(ts_start)
-                if ts is None:
+                if ts is not None:
                     ts_end = self.tokenizer.timestamp2token(ts[1].item())
                 else:
                     decoder_output = self.decode_featmap(
