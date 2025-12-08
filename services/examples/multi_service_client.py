@@ -123,6 +123,14 @@ def tensor_to_bytes(tensor: torch.Tensor) -> bytes:
 
 def resample(audio_path:Path) -> torch.Tensor:
     wav, sr = torchaudio.load(audio_path, normalize=False)
+    # Конвертируем в float32 если нужно
+    if wav.dtype != torch.float32:
+        if wav.dtype == torch.int16:
+            wav = wav.float() / 32768.0
+        elif wav.dtype == torch.int32:
+            wav = wav.float() / 2147483648.0
+        else:
+            wav = wav.float()
     wav = torchaudio.transforms.Resample(orig_freq=sr, new_freq=REQ_SR)(
             wav
         )
@@ -167,6 +175,10 @@ def find(session, result) -> List[Dict[str, object]]:
             embedding_b64 = np.frombuffer(entry.embedding, dtype=np.float32)
             enroll_embeddings.append(embedding_b64)
             enroll_names.append(entry.user_name)
+
+    # Проверяем, есть ли записи в базе данных
+    if len(enroll_embeddings) == 0:
+        return "unknown", 0.0
 
     enroll_embeddings = np.stack(enroll_embeddings)
     test_embedding = np.frombuffer(result["embedding"], dtype=np.float32)[None, ...]
