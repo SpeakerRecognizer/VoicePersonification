@@ -59,7 +59,7 @@ conda activate ./envs/python3.8
 ### 3. Установите PyTorch
 
 ```bash
-conda install pytorch::pytorch torchvision torchaudio -c pytorch
+conda install pytorch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 pytorch-cuda=12.1 -c pytorch -c nvidia
 ```
 
 
@@ -155,7 +155,8 @@ python -m VoicePersonification.main \
 
 - [`notebooks/verification-tutorial.ipynb`](https://github.com/SpeakerRecognizer/VoicePersonification/blob/main/notebooks/verification-tutorial.ipynb) — быстрый старт и простая верификация на двух примерах
 - [`examples/`](examples/) — примеры enrollment и test аудиофайлов
-
+- [`grpcio-services`](services/examples/README.md) - Запуск сервисов
+- [`demo examination`](demo/examination/README.md) - Демонстрация проведения экзамена 
 ---
 
 ## 🎓 Курс по распознаванию диктора
