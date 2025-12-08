@@ -11,9 +11,9 @@ or
 ~~~
 * Install pytorch
 ~~~bash
-~$ conda install pytorch::pytorch torchvision torchaudio -c pytorch
+~$ conda install pytorch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 pytorch-cuda=12.1 -c pytorch -c nvidia
 or 
-~$ mamba install pytorch::pytorch torchvision torchaudio -c pytorch
+~$ mamba install pytorch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 pytorch-cuda=12.1 -c pytorch -c nvidia
 ~~~
 * Install other dependacies
 ~~~bash
