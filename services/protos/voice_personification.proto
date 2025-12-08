@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package voicepersonification;
+
+message AudioRequest {
+  string filename = 1;
+  bytes audio = 2;
+}
+
+message BrouhahaPrediction {
+  repeated float speech = 1;
+  repeated float snr = 2;
+  repeated float c50 = 3;
+  int32 sample_rate = 4;
+  float chunk_size_seconds = 5;
+}
+
+message BrouhahaResponse {
+  string filename = 1;
+  BrouhahaPrediction prediction = 2;
+}
+
+message EmbeddingPrediction {
+  repeated float values = 1;
+  int32 dimension = 2;
+}
+
+message EmbeddingResponse {
+  string filename = 1;
+  EmbeddingPrediction embedding = 2;
+}
+
+message Segment {
+  float start = 1;
+  float end = 2;
+  repeated float embedding = 3;
+}
+
+message SegmentationPrediction {
+  EmbeddingPrediction mean_embedding = 1;
+  repeated Segment segments = 2;
+}
+
+message SegmentationResponse {
+  string filename = 1;
+  SegmentationPrediction result = 2;
+}
+
+message TranscriptSegment {
+  float start = 1;
+  float end = 2;
+  string text = 3;
+}
+
+message TranscriptionResult {
+  string text = 1;
+  repeated TranscriptSegment segments = 2;
+  string language = 3;
+}
+
+message TranscriptionResponse {
+  string filename = 1;
+  TranscriptionResult transcription = 2;
+}
+
+service BrouhahaVADGrpcService {
+  rpc Predict(AudioRequest) returns (BrouhahaResponse);
+}
+
+service ECAPATDNNGrpcService {
+  rpc Embed(AudioRequest) returns (EmbeddingResponse);
+}
+
+service ItmoPersonificationLargeGrpcService {
+  rpc Embed(AudioRequest) returns (EmbeddingResponse);
+}
+
+service ItmoPersonificationSegmentationGrpcService {
+  rpc Segment(AudioRequest) returns (SegmentationResponse);
+}
+
+service WhisperRecognitionGrpcService {
+  rpc Transcribe(AudioRequest) returns (TranscriptionResponse);
+}
